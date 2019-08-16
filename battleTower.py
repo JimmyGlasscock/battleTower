@@ -1,3 +1,5 @@
+# Created By Jimmy Glasscock - 8/16/19
+
 # TO DO:
 # create and run base stat & move scraper
 # when user clicks on a po it will grab the base stats and generate from there
@@ -7,10 +9,20 @@ import random
 
 #rename me
 class Po:
+
+	# until support for this is added, ev & iv values will be 0, nature will be 1
+	def generateStat(self, stat, IV, EV, level, nature):
+		newStat = ((((2 * stat + IV + (EV/4)) * level)/100) + 5) * nature;
+		return newStat;
+
+	def generateHP(self, HP, IV, EV, level):
+		newHP = (((2 * HP + IV + (EV/4)) * level)/100) + level + 10;
+		return newHP;
+
 	# the constructor will generate the stats
 	# takes in moves as an array
 	# types will be an array as well
-	def __init__(self, num, name, level, attack, defense, specAttack, specDefense, speed, HP, types, moves):
+	def __init__(self, num, name, level, HP, attack, defense, specAttack, specDefense, speed, types, moves):
 		#generate stats here
 
 		#until IV and nature support is added, they will be these values:
@@ -29,37 +41,28 @@ class Po:
 		self.speedEV = random.randint(1,31)
 		self.HPEV = random.randint(1,31)
 
-		self.attack = generateStat(attack, IV, self.attackEV, level, nature)
-		self.defense = generateStat(defense, IV, self.defenseEV, level, nature)
-		self.specAttack = generateStat(specAttack, IV, self.specAttackEV, level, nature)
-		self.specDefense = generateStat(specDefense, IV, self.specDefenseEV, level, nature)
-		self.speed = generateStat(speed, IV, self.speedEV, level, nature)
-		self.MaxHP = generateHP(HP, IV, self.HPEV, level)
+		self.attack = self.generateStat(attack, IV, self.attackEV, level, nature)
+		self.defense = self.generateStat(defense, IV, self.defenseEV, level, nature)
+		self.specAttack = self.generateStat(specAttack, IV, self.specAttackEV, level, nature)
+		self.specDefense = self.generateStat(specDefense, IV, self.specDefenseEV, level, nature)
+		self.speed = self.generateStat(speed, IV, self.speedEV, level, nature)
+		self.MaxHP = self.generateHP(HP, IV, self.HPEV, level)
 		self.HP = self.MaxHP
 		self.types = types
 		self.moves = moves
 
-	# until support for this is added, ev & iv values will be 0, nature will be 1
-	def generateStat(stat, IV, EV, level, nature):
-		newStat = ((((2 * stat + IV + (EV/4)) * level)/100) + 5) * nature;
-		return newStat;
-
-	def generateHP(HP, IV, EV, level):
-		newHP = (((2 * HP + IV + (EV/4)) * level)/100) + level + 10;
-		return newHP;
-
 	# this method is for testing purposes
-	def printStats():
+	def printStats(self):
 		print(self.name)
-		print("Level: " + self.level)
+		print("Level: " + str(self.level))
 		print("")
-		print("HP: " + self.HP + "/" + self.MaxHP)
+		print("HP: " + str(self.HP) + "/" + str(self.MaxHP))
 		print("")
-		print("Attack: " + self.attack)
-		print("Defense: " + self.defense)
-		print("Special Attack: " + self.specAttack)
-		print("Special Defense: " + self.specDefense)
-		print("Speed: " + self.speed)
+		print("Attack: " + str(self.attack))
+		print("Defense: " + str(self.defense))
+		print("Special Attack: " + str(self.specAttack))
+		print("Special Defense: " + str(self.specDefense))
+		print("Speed: " + str(self.speed))
 
 class Move: 
 	# takes in physical as a boolean to determine physical/special
@@ -69,4 +72,6 @@ class Move:
 		self.baseDamage = baseDamage
 		self.physical = physical
 
-Bulb = Po(1, "Bulbasaur", 50, 0, 0)
+Bulb = Po(1, "Bulbasaur", 50, 45, 49, 49, 65, 65, 45, 0, 0)
+
+Bulb.printStats()
