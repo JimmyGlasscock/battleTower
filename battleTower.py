@@ -1,3 +1,8 @@
+# TO DO:
+# create and run base stat & move scraper
+# when user clicks on a po it will grab the base stats and generate from there
+# 
+
 #rename me
 class Po:
 	# the constructor will generate the stats
