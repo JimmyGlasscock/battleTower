@@ -39,6 +39,19 @@ class Po:
 		newHP = (((2 * HP + IV + (EV/4)) * level)/100) + level + 10;
 		return newHP;
 
+	# this method is for testing purposes
+	def printStats():
+		print(self.name)
+		print("Level: " + self.level)
+		print("")
+		print("HP: " + self.HP + "/" + self.MaxHP)
+		print("")
+		print("Attack: " + self.attack)
+		print("Defense: " + self.defense)
+		print("Special Attack: " + self.specAttack)
+		print("Special Defense: " + self.specDefense)
+		print("Speed: " + self.speed)
+
 class Move: 
 	# takes in physical as a boolean to determine physical/special
 	def __init__(self, name, typeOfMove, baseDamage, physical):
