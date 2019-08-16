@@ -88,6 +88,33 @@ class Move:
 		self.classification = classification
 
 class Battle:
+	#type chart is a 2D array and each type is a number (a row or column)
+	#Type order is as follows:
+	#Normal, Fighting, Flying, Poison, Ground, Rock, Bug, Ghost, Steel, Fire, Water, Grass, Electric, Psychic, Ice, Dragon, Dark, Fairy
+	#	0		1		  2		  3		  4		 5	  6		7	   8	 9	   10	   11		12		 13		14	  15	 16		17
+
+	#Attacking type is row, Defending type is column
+	typeEffectivenessChart = [
+		(2,2,2,2,2,1,2,0,1,2,2,2,2,2,2,2,2,2),#normal
+		(4,2,1,1,2,4,1,0,4,2,2,2,2,1,4,2,4,1),#fighting
+		(2,4,2,2,2,1,4,2,1,2,2,4,1,2,2,2,2,2),#flying
+		(2,2,2,1,1,1,2,1,0,2,2,4,2,2,2,2,2,4),#poison
+		(2,2,0,4,2,4,1,2,4,4,2,1,4,2,2,2,2,2),#ground
+		(2,1,4,2,1,2,4,2,1,4,2,2,2,2,4,2,2,2),#rock
+		(2,1,1,1,2,2,2,1,1,1,2,4,2,4,2,2,4,1),#bug
+		(0,2,2,2,2,2,2,4,2,2,2,2,2,4,2,2,1,2),#ghost
+		(2,2,2,2,2,4,2,2,1,1,1,2,1,2,4,2,2,4),#steel
+		(2,2,2,2,2,1,4,2,4,1,1,4,2,2,4,1,2,2),#fire
+		(2,2,2,2,4,4,2,2,2,4,1,1,2,2,2,1,2,2),#water
+		(2,2,1,1,4,4,1,2,1,1,4,1,2,2,2,1,2,2),#grass
+		(2,2,4,2,0,2,2,2,2,2,4,1,1,2,2,1,2,2),#electric
+		(2,4,2,4,2,2,2,2,1,2,2,2,2,1,2,2,0,2),#psychic
+		(2,2,4,2,4,2,2,2,1,1,1,4,2,2,1,4,2,2),#ice
+		(2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,4,2,0),#dragon
+		(2,1,2,2,2,2,2,4,2,2,2,2,2,4,2,2,1,1),#dark
+		(2,4,2,1,2,2,2,2,1,1,2,2,2,2,2,4,4,2)#fairy
+	]
+
 	# both teams are stored as arrays
 	def __init__(playerTeam, oppoTeam):
 		print("this will start the loop and do the various checks")
@@ -125,7 +152,7 @@ class Battle:
 		if(attacker.types[0] == move.typeOfMove || attacker.types[1] == move.typeOfMove):
 			stab = 1.5
 
-		typeEffectiveness = 1
+		typeEffectiveness = self.calculateTypeEffectiveness(defender.types, move.type)
 
 		burn = 1
 		if(attacker.status = "burned"):
@@ -134,6 +161,19 @@ class Battle:
 		modifier = (critical * rand * stab * typeEffectiveness * burn);
 
 		return (damageDealt * modifier)
+
+	#opponentTypes is an array
+	def calculateTypeEffectiveness(opponentTypes, moveType):
+		effectiveness = typeEffectivenessChart[moveType][opponentTypes[0]]
+		effectiveness *= 0.5
+
+		if(opponentTypes[1] != -1):
+			effectiveness2 = typeEffectivenessChart[moveType][opponentTypes[1]]
+			effectiveness2 *= 0.5
+			effectiveness = effectiveness * effectiveness2
+
+
+		return effectiveness
 
 	def battleLoop():
 		turnNumber = 0
