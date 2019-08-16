@@ -87,6 +87,21 @@ class Move:
 		self.baseDamage = baseDamage
 		self.physical = physical
 
-Bulb = Po(1, "Bulbasaur", 50, 45, 49, 49, 65, 65, 45, 0, 0)
+class Battle:
+	# both teams are stored as arrays
+	def __init__(playerTeam, oppoTeam):
+		print("this will start the loop and do the various checks")
 
-Bulb.printStats()
+	def playerTurn():
+		print("player turn")
+
+	def opponentTurn():
+		print("opponent turn")
+
+	def battleLoop():
+		turnNumber = 0
+		playerWhiteout = False
+		opponentWhiteout = False
+
+		while(opponentWhiteout != True && playerWhiteout != True):
+			print("this will increase turnNumber and all that good stuff")
