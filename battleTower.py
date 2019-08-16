@@ -13,11 +13,21 @@ class Po:
 	# until support for this is added, ev & iv values will be 0, nature will be 1
 	def generateStat(self, stat, IV, EV, level, nature):
 		newStat = ((((2 * stat + IV + (EV/4)) * level)/100) + 5) * nature;
+		newStat = int(newStat)
 		return newStat;
 
 	def generateHP(self, HP, IV, EV, level):
 		newHP = (((2 * HP + IV + (EV/4)) * level)/100) + level + 10;
+		newHP = int(newHP)
 		return newHP;
+
+	#returns boolean, 1/4096 odds it will be true
+	def shinyRoll(self):
+		num = random.randint(1,4096)
+
+		if(num == 4096):
+			return True
+		return False
 
 	# the constructor will generate the stats
 	# takes in moves as an array
@@ -32,6 +42,8 @@ class Po:
 		self.num =num
 		self.name = name
 		self.level = level
+
+		self.shiny = self.shinyRoll()
 
 		# EV values are generated and stored
 		self.attackEV = random.randint(1,31)
@@ -63,6 +75,7 @@ class Po:
 		print("Special Attack: " + str(self.specAttack))
 		print("Special Defense: " + str(self.specDefense))
 		print("Speed: " + str(self.speed))
+		print("Shiny: " + str(self.shiny))
 
 class Move: 
 	# takes in physical as a boolean to determine physical/special
