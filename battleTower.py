@@ -63,6 +63,8 @@ class Po:
 		self.types = types
 		self.moves = moves
 
+		self.status = ""
+
 	# this method is for testing purposes
 	def printStats(self):
 		print(self.name)
