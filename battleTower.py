@@ -2,13 +2,12 @@
 
 # TO DO:
 # create and run base stat & move scraper
-# when user clicks on a po it will grab the base stats and generate from there
-# rename Po class
+# when user clicks on a po it will grab the base stats and generate from theres
 
 import random
 
 #rename me
-class Po:
+class Pokemon:
 
 	# until support for this is added, iv values will be 0, nature will be 1
 	def generateStat(self, stat, IV, EV, level, nature):
@@ -160,7 +159,7 @@ class Battle:
 
 		modifier = (critical * rand * stab * typeEffectiveness * burn);
 
-		return (damageDealt * modifier)
+		return int(damageDealt * modifier)
 
 	#opponentTypes is an array
 	def calculateTypeEffectiveness(opponentTypes, moveType):
@@ -183,6 +182,6 @@ class Battle:
 		opponentWhiteout = False
 
 		while(opponentWhiteout != True && playerWhiteout != True):
-			print("this will increase turnNumber and all that good stuff")
-
+			
+			#turn number is increased last
 			turnNumber += 1
