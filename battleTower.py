@@ -1,7 +1,7 @@
 # TO DO:
 # create and run base stat & move scraper
 # when user clicks on a po it will grab the base stats and generate from there
-# 
+# rename Po class
 
 import random
 
@@ -20,12 +20,21 @@ class Po:
 		self.num =num
 		self.name = name
 		self.level = level
-		self.attack = generateStat(attack, IV, random.randint(1,31), level, nature)
-		self.defense = generateStat(defense, IV, random.randint(1,31), level, nature)
-		self.specAttack = generateStat(specAttack, IV, random.randint(1,31), level, nature)
-		self.specDefense = generateStat(specDefense, IV, random.randint(1,31), level, nature)
-		self.speed = generateStat(speed, IV, random.randint(1,31), level, nature)
-		self.MaxHP = generateHP(HP, IV, random.randint(1,31), level)
+
+		# EV values are generated and stored
+		self.attackEV = random.randint(1,31)
+		self.defenseEV = random.randint(1,31)
+		self.specAttackEV = random.randint(1,31)
+		self.specDefenseEV = random.randint(1,31)
+		self.speedEV = random.randint(1,31)
+		self.HPEV = random.randint(1,31)
+
+		self.attack = generateStat(attack, IV, self.attackEV, level, nature)
+		self.defense = generateStat(defense, IV, self.defenseEV, level, nature)
+		self.specAttack = generateStat(specAttack, IV, self.specAttackEV, level, nature)
+		self.specDefense = generateStat(specDefense, IV, self.specDefenseEV, level, nature)
+		self.speed = generateStat(speed, IV, self.speedEV, level, nature)
+		self.MaxHP = generateHP(HP, IV, self.HPEV, level)
 		self.HP = self.MaxHP
 		self.types = types
 		self.moves = moves
@@ -59,3 +68,5 @@ class Move:
 		self.typeOfMove = typeOfMove
 		self.baseDamage = baseDamage
 		self.physical = physical
+
+Bulb = Po(1, "Bulbasaur", 50, 0, 0)
