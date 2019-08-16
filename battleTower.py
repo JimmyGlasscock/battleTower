@@ -10,7 +10,7 @@ import random
 #rename me
 class Po:
 
-	# until support for this is added, ev & iv values will be 0, nature will be 1
+	# until support for this is added, iv values will be 0, nature will be 1
 	def generateStat(self, stat, IV, EV, level, nature):
 		newStat = ((((2 * stat + IV + (EV/4)) * level)/100) + 5) * nature;
 		newStat = int(newStat)
@@ -80,12 +80,12 @@ class Po:
 		print("Shiny: " + str(self.shiny))
 
 class Move: 
-	# takes in physical as a boolean to determine physical/special
-	def __init__(self, name, typeOfMove, baseDamage, physical):
+	# takes in classification as a string to determine physical/special/none
+	def __init__(self, name, typeOfMove, baseDamage, classification):
 		self.name = name
 		self.typeOfMove = typeOfMove
 		self.baseDamage = baseDamage
-		self.physical = physical
+		self.classification = classification
 
 class Battle:
 	# both teams are stored as arrays
@@ -93,15 +93,56 @@ class Battle:
 		print("this will start the loop and do the various checks")
 
 	def playerTurn():
+		#prompt the user to fight, switch, or use item
 		print("player turn")
 
 	def opponentTurn():
+		#uses the game's formula to decide which opponent attack to use
 		print("opponent turn")
+
+	def calculateDamage(attacker, defender, move):
+		damageDealt = 0
+		modifier = 1
+
+		attackStat = 0
+		defenseStat = 0
+
+		if(move.classification == "physical"):
+			attackStat = attacker.attack
+			defenseStat = defender.defense
+		elif(move.classification == "special"):
+			attackStat = attacker.specAttack
+			defenseStat = defender.specDefense
+
+		damageDealt = ((((((2 * attacker.level)/5)+2) * move.baseDamage * (attackStat/defenseStat))/50) + 2)
+
+		#change me if you want critical hit support
+		critical = 1
+		rand = random.randint(0.85, 1.00)
+		#stands for same type attack bonus
+		stab = 1
+
+		if(attacker.types[0] == move.typeOfMove || attacker.types[1] == move.typeOfMove):
+			stab = 1.5
+
+		typeEffectiveness = 1
+
+		burn = 1
+		if(attacker.status = "burned"):
+			burn = 0.5
+
+		modifier = (critical * rand * stab * typeEffectiveness * burn);
+
+		return (damageDealt * modifier)
 
 	def battleLoop():
 		turnNumber = 0
+		# this is true if the players entire team is fainted
 		playerWhiteout = False
+		# this is true if the opponent's entire team is fainted
 		opponentWhiteout = False
 
 		while(opponentWhiteout != True && playerWhiteout != True):
 			print("this will increase turnNumber and all that good stuff")
+
+			turnNumber += 1
