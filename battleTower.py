@@ -3,6 +3,8 @@
 # when user clicks on a po it will grab the base stats and generate from there
 # 
 
+import random
+
 #rename me
 class Po:
 	# the constructor will generate the stats
@@ -11,20 +13,19 @@ class Po:
 	def __init__(self, num, name, level, attack, defense, specAttack, specDefense, speed, HP, types, moves):
 		#generate stats here
 
-		#until EV, IV and nature support is added, they will be these values:
+		#until IV and nature support is added, they will be these values:
 		IV = 0
-		EV = 0
 		nature = 1
 
 		self.num =num
 		self.name = name
 		self.level = level
-		self.attack = generateStat(attack, IV, EV, level, nature)
-		self.defense = generateStat(defense, IV, EV, level, nature)
-		self.specAttack = generateStat(specAttack, IV, EV, level, nature)
-		self.specDefense = generateStat(specDefense, IV, EV, level, nature)
-		self.speed = generateStat(speed, IV, EV, level, nature)
-		self.MaxHP = generateHP(HP, IV, EV, level)
+		self.attack = generateStat(attack, IV, random.randint(1,31), level, nature)
+		self.defense = generateStat(defense, IV, random.randint(1,31), level, nature)
+		self.specAttack = generateStat(specAttack, IV, random.randint(1,31), level, nature)
+		self.specDefense = generateStat(specDefense, IV, random.randint(1,31), level, nature)
+		self.speed = generateStat(speed, IV, random.randint(1,31), level, nature)
+		self.MaxHP = generateHP(HP, IV, random.randint(1,31), level)
 		self.HP = self.MaxHP
 		self.types = types
 		self.moves = moves
