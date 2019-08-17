@@ -181,7 +181,7 @@ class Battle:
 		# this is true if the opponent's entire team is fainted
 		opponentWhiteout = False
 
-		while(opponentWhiteout != True && playerWhiteout != True):
+		while(opponentWhiteout != True and playerWhiteout != True):
 			
 			#turn number is increased last
 			turnNumber += 1
