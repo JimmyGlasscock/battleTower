@@ -148,7 +148,7 @@ class Battle:
 		#stands for same type attack bonus
 		stab = 1
 
-		if(attacker.types[0] == move.typeOfMove || attacker.types[1] == move.typeOfMove):
+		if(attacker.types[0] == move.typeOfMove or attacker.types[1] == move.typeOfMove):
 			stab = 1.5
 
 		typeEffectiveness = self.calculateTypeEffectiveness(defender.types, move.type)
