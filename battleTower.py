@@ -1,8 +1,8 @@
 # Created By Jimmy Glasscock - 8/16/19
 
 # TO DO:
-# create and run base stat & move scraper
-# when user clicks on a pokemon it will grab the base stats and generate from theres
+# create and run base stat & move csv scraper
+# when user clicks on a pokemon it will grab the base stats and generate from there
 # use gen 5 GIFs for sprites (togglable?)
 
 import random
