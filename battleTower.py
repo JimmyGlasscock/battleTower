@@ -154,7 +154,7 @@ class Battle:
 		typeEffectiveness = self.calculateTypeEffectiveness(defender.types, move.type)
 
 		burn = 1
-		if(attacker.status = "burned"):
+		if(attacker.status == "burned"):
 			burn = 0.5
 
 		modifier = (critical * rand * stab * typeEffectiveness * burn);
