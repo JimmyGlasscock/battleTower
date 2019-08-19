@@ -7,7 +7,6 @@
 
 import random
 
-#rename me
 class Pokemon:
 
 	# until support for this is added, iv values will be 0, nature will be 1
