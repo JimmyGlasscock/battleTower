@@ -2,7 +2,8 @@
 
 # TO DO:
 # create and run base stat & move scraper
-# when user clicks on a po it will grab the base stats and generate from theres
+# when user clicks on a pokemon it will grab the base stats and generate from theres
+# use gen 5 GIFs for sprites (togglable?)
 
 import random
 
