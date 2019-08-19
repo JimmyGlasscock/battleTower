@@ -187,14 +187,20 @@ class Battle:
 		return effectiveness
 
 	def compareSpeed(self, player, opponent):
+		pokemonFainted = False
+
 		if(opponent.speed > player.speed):
 			self.opponentTurn(player, opponent)
 			if(player.status != "FNT"):
 				self.playerTurn(player, opponent)
+				pokemonFainted = True
 		else:
 			self.playerTurn(player, opponent)
 			if(opponent.status != "FNT"):
 				self.opponentTurn(player, opponent)
+				pokemonFainted = True
+
+		return pokemonFainted
 
 	def battleLoop(self, playerTeam, oppoTeam):
 		turnNumber = 0
@@ -210,9 +216,15 @@ class Battle:
 			#weather conditions
 
 			#compare speed, call player/opponent attack based on which
-			self.compareSpeed(currentPlayer, currentOpponent)
+			pkmnFainted = self.compareSpeed(currentPlayer, currentOpponent)
+
+			if(pkmnFainted):
+				playerWhiteout = checkWhiteout(playerTeam)
+				opponentWhiteout = checkWhiteout(oppoTeam)
 
 			#apply status if status
 
 			#turn number is increased last
 			turnNumber += 1
+
+		#finish out battle based on who won
