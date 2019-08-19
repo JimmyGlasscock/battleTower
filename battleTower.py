@@ -116,15 +116,27 @@ class Battle:
 
 	# both teams are stored as arrays
 	def __init__(playerTeam, oppoTeam):
-		print("this will start the loop and do the various checks")
+		self.battleIntro()
+		self.battleLoop(playerTeam, oppoTeam)
 
-	def playerTurn():
+	def checkFainted(self, fighter):
+		if(fighter.HP < 0 or fighter.HP == 0):
+			fighter.HP = 0
+			fighter.status = "FNT"
+
+	def playerTurn(self, player, opponent):
 		#prompt the user to fight, switch, or use item
-		print("player turn")
+		
+		#this should be last
+		self.checkFainted(player)
+		self.checkFainted(opponent)
 
-	def opponentTurn():
+	def opponentTurn(self, player, opponent):
 		#uses the game's formula to decide which opponent attack to use
-		print("opponent turn")
+		
+		#this should be last
+		self.checkFainted(player)
+		self.checkFainted(opponent)
 
 	def calculateDamage(attacker, defender, move):
 		damageDealt = 0
@@ -174,14 +186,33 @@ class Battle:
 
 		return effectiveness
 
-	def battleLoop():
+	def compareSpeed(self, player, opponent):
+		if(opponent.speed > player.speed):
+			self.opponentTurn(player, opponent)
+			if(player.status != "FNT"):
+				self.playerTurn(player, opponent)
+		else:
+			self.playerTurn(player, opponent)
+			if(opponent.status != "FNT"):
+				self.opponentTurn(player, opponent)
+
+	def battleLoop(self, playerTeam, oppoTeam):
 		turnNumber = 0
 		# this is true if the players entire team is fainted
 		playerWhiteout = False
 		# this is true if the opponent's entire team is fainted
 		opponentWhiteout = False
 
+		currentPlayer = playerTeam[0]
+		currentOpponent = oppoTeam[0]
+
 		while(opponentWhiteout != True and playerWhiteout != True):
-			
+			#weather conditions
+
+			#compare speed, call player/opponent attack based on which
+			self.compareSpeed(currentPlayer, currentOpponent)
+
+			#apply status if status
+
 			#turn number is increased last
 			turnNumber += 1
