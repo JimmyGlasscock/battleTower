@@ -3,9 +3,11 @@
 # TO DO:
 # create and run base stat & move csv scraper
 # when user clicks on a pokemon it will grab the base stats and generate from there
-# use gen 5 GIFs for sprites (togglable?)
+# use gen 5 GIFs for sprites (togglable?) - add  ui
 
 import random
+import pygame
+from pygame.locals import *
 
 class Pokemon:
 
@@ -22,9 +24,10 @@ class Pokemon:
 
 	#returns boolean, 1/4096 odds it will be true
 	def shinyRoll(self):
-		num = random.randint(1,4096)
+		odds = 4096
+		num = random.randint(1,odds)
 
-		if(num == 4096):
+		if(num == odds):
 			return True
 		return False
 
@@ -89,8 +92,6 @@ class Move:
 class Battle:
 	#type chart is a 2D array and each type is a number (a row or column)
 	#Type order is as follows:
-	#Normal, Fighting, Flying, Poison, Ground, Rock, Bug, Ghost, Steel, Fire, Water, Grass, Electric, Psychic, Ice, Dragon, Dark, Fairy
-	#	0		1		  2		  3		  4		 5	  6		7	   8	 9	   10	   11		12		 13		14	  15	 16		17
 
 	#Attacking type is row, Defending type is column
 	typeEffectivenessChart = [
@@ -228,3 +229,56 @@ class Battle:
 			turnNumber += 1
 
 		#finish out battle based on who won
+
+#This class is going to handle everything graphics related
+#everything on the screen
+class Scene:
+
+	#init sets the background as well as the drawing bool to true
+	def __init__(self, bg):
+		self.drawing = True
+		self.bg = bg
+
+	def drawScene(self):
+		#should I call this here?
+		pygame.init()
+
+		screen = pygame.display.set_mode((600,600))
+		screen.set_caption("Battle Tower")
+
+		color = (0,65,122)
+
+		#this is the rendering loop
+		while self.drawing:
+			screen.fill(color)
+			pygame.display.flip()
+
+			#do this last
+			for event in pygame.event.get():
+				if(event == pygame.QUIT):
+					self.drawing = false
+
+	# this method switches the pokemon
+
+	#isPlayerPokemon is a bool that determines whether the
+	#player or opponent is switched out
+	def updatePkmn(self, playerPKMN, isPlayerPokemon):
+		print("updated")
+
+	def updatePlayerHPBar(self, HPnum, isPlayerPokemon):
+		print("updated")
+
+	#isPlayerPokemon is a bool that determines whether the
+	#player or opponent uses the move
+	def moveAnimation(self, move, isPlayerPokemon):
+		print("___ used move")
+
+	def updateMessageboxText(self, newText, duration):
+		print(newText)
+
+	#some Moves update the background, this is for that
+	def updateBG(self, move, duration):
+		print("updated")
+
+scene = Scene(None)
+scene.drawScene()
