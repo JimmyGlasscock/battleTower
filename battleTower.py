@@ -276,10 +276,16 @@ class Scene:
 	#player or opponent is switched out
 	def updatePkmn(self, playerPKMN, isPlayerPokemon):
 		if(isPlayerPokemon):
-			player = pygame.image.load("img/sprites/back/" + str(playerPKMN.num) +".png")
+			shinyPath = ""
+			if(playerPKMN.shiny):
+				shinyPath = "shiny/"
+			player = pygame.image.load("img/sprites/" + shinyPath + "back/" + str(playerPKMN.num) +".png")
 			self.playerPokemonSprite = pygame.transform.scale(player, (160,160))
 		else:
-			oppo = pygame.image.load("img/sprites/" + str(playerPKMN.num) +".png")
+			shinyPath = ""
+			if(playerPKMN.shiny):
+				shinyPath = "shiny/"
+			oppo = pygame.image.load("img/sprites/" + shinyPath + str(playerPKMN.num) +".png")
 			self.opponentPokemonSprite = pygame.transform.scale(oppo, (160, 160))
 
 	def updatePlayerHPBar(self, HPnum, isPlayerPokemon):
