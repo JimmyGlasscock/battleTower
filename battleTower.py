@@ -1,9 +1,8 @@
 # Created By Jimmy Glasscock - 8/16/19
 
 # TO DO:
-# create and run base stat & move csv scraper
 # when user clicks on a pokemon it will grab the base stats and generate from there
-# use gen 5 GIFs for sprites (togglable?) - add  ui
+# find way to center back sprites
 
 import random
 import pygame
@@ -279,7 +278,7 @@ class Scene:
 			shinyPath = ""
 			if(playerPKMN.shiny):
 				shinyPath = "shiny/"
-			player = pygame.image.load("img/sprites/" + shinyPath + "back/" + str(playerPKMN.num) +".png")
+			player = pygame.image.load("img/sprites/back/" + shinyPath + str(playerPKMN.num) +".png")
 			self.playerPokemonSprite = pygame.transform.scale(player, (160,160))
 		else:
 			shinyPath = ""
