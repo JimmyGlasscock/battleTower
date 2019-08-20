@@ -243,8 +243,10 @@ class Scene:
 		#should I call this here?
 		pygame.init()
 
+		#screen is what is drawn to
 		screen = pygame.display.set_mode((600,600))
-		screen.set_caption("Battle Tower")
+		#pygame.display contains various settings
+		pygame.display.set_caption("Battle Tower")
 
 		color = (0,65,122)
 
