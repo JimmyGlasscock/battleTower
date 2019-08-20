@@ -233,39 +233,54 @@ class Battle:
 #This class is going to handle everything graphics related
 #everything on the screen
 class Scene:
-
 	#init sets the background as well as the drawing bool to true
 	def __init__(self, bg):
 		self.drawing = True
 		self.bg = bg
 
-	def drawScene(self):
+	def drawSceneBattle(self):
 		#should I call this here?
 		pygame.init()
 
 		#screen is what is drawn to
-		screen = pygame.display.set_mode((600,600))
+		self.screen = pygame.display.set_mode((600,600))
 		#pygame.display contains various settings
 		pygame.display.set_caption("Battle Tower")
+
+		textbox = pygame.image.load("img/ui/Textbox.png")
+		textbox = pygame.transform.scale(textbox, (600, 105))
+
 
 		color = (0,65,122)
 
 		#this is the rendering loop
 		while self.drawing:
-			screen.fill(color)
+			self.screen.blit(self.bg, (0,0))
+			self.screen.blit(self.playerPokemonSprite, (0,200))
+			self.screen.blit(self.opponentPokemonSprite, (200,0))
+
+			self.screen.blit(textbox, (0,495))
+
+			#this should be last
 			pygame.display.flip()
 
 			#do this last
 			for event in pygame.event.get():
-				if(event == pygame.QUIT):
-					self.drawing = false
+				if(event.type == pygame.QUIT):
+					pygame.display.quit()
+					pygame.quit()
 
 	# this method switches the pokemon
 
 	#isPlayerPokemon is a bool that determines whether the
 	#player or opponent is switched out
 	def updatePkmn(self, playerPKMN, isPlayerPokemon):
-		print("updated")
+		if(isPlayerPokemon):
+			player = pygame.image.load("img/sprites/back/" + str(playerPKMN.num) +".png")
+			self.playerPokemonSprite = pygame.transform.scale(player, (240,240))
+		else:
+			oppo = pygame.image.load("img/sprites/" + str(playerPKMN.num) +".png")
+			self.opponentPokemonSprite = pygame.transform.scale(oppo, (240, 240))
 
 	def updatePlayerHPBar(self, HPnum, isPlayerPokemon):
 		print("updated")
@@ -276,11 +291,21 @@ class Scene:
 		print("___ used move")
 
 	def updateMessageboxText(self, newText, duration):
+		#add scrolling text
+		#self.screen.blit(newText, (20, 500))
 		print(newText)
 
 	#some Moves update the background, this is for that
 	def updateBG(self, move, duration):
 		print("updated")
 
-scene = Scene(None)
-scene.drawScene()
+BG = pygame.image.load("img/bg/BGMorning.png")
+
+scene = Scene(BG)
+
+Bulba = Pokemon(1, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
+Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 0, 0, 0)
+
+scene.updatePkmn(Bulba, True)
+scene.updatePkmn(Charm, False)
+scene.drawSceneBattle()
