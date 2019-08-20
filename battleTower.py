@@ -243,7 +243,7 @@ class Scene:
 		pygame.init()
 
 		#screen is what is drawn to
-		self.screen = pygame.display.set_mode((600,600))
+		self.screen = pygame.display.set_mode((600,430))
 		#pygame.display contains various settings
 		pygame.display.set_caption("Battle Tower")
 
@@ -256,10 +256,10 @@ class Scene:
 		#this is the rendering loop
 		while self.drawing:
 			self.screen.blit(self.bg, (0,0))
-			self.screen.blit(self.playerPokemonSprite, (0,200))
-			self.screen.blit(self.opponentPokemonSprite, (200,0))
+			self.screen.blit(self.playerPokemonSprite, (60,178))
+			self.screen.blit(self.opponentPokemonSprite, (375,85))
 
-			self.screen.blit(textbox, (0,495))
+			self.screen.blit(textbox, (0,325))
 
 			#this should be last
 			pygame.display.flip()
@@ -277,10 +277,10 @@ class Scene:
 	def updatePkmn(self, playerPKMN, isPlayerPokemon):
 		if(isPlayerPokemon):
 			player = pygame.image.load("img/sprites/back/" + str(playerPKMN.num) +".png")
-			self.playerPokemonSprite = pygame.transform.scale(player, (240,240))
+			self.playerPokemonSprite = pygame.transform.scale(player, (160,160))
 		else:
 			oppo = pygame.image.load("img/sprites/" + str(playerPKMN.num) +".png")
-			self.opponentPokemonSprite = pygame.transform.scale(oppo, (240, 240))
+			self.opponentPokemonSprite = pygame.transform.scale(oppo, (160, 160))
 
 	def updatePlayerHPBar(self, HPnum, isPlayerPokemon):
 		print("updated")
