@@ -2,7 +2,7 @@
 
 # TO DO:
 # when user clicks on a pokemon it will grab the base stats and generate from there
-# find way to center back sprites
+# find way to center back sprites & front sprites
 
 import random
 import pygame
