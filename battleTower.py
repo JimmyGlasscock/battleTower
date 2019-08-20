@@ -249,6 +249,8 @@ class Scene:
 		textbox = pygame.image.load("img/ui/Textbox.png")
 		textbox = pygame.transform.scale(textbox, (600, 105))
 
+		HPBar = pygame.image.load("img/ui/HPBar.png")
+		OppoHPBar = pygame.image.load("img/ui/OpponentHPBar.png")
 
 		color = (0,65,122)
 
@@ -257,6 +259,9 @@ class Scene:
 			self.screen.blit(self.bg, (0,0))
 			self.screen.blit(self.playerPokemonSprite, (60,178))
 			self.screen.blit(self.opponentPokemonSprite, (375,85))
+
+			self.screen.blit(HPBar, (356, 225))
+			self.screen.blit(OppoHPBar, (0, 60))
 
 			self.screen.blit(textbox, (0,325))
 
