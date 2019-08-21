@@ -338,7 +338,8 @@ class Scene:
 			if(a != 0):
 				lastpixel = y + 1
 		
-		return (height - lastpixel)
+		#have to scale by 2
+		return (height - lastpixel)*2
 
 BG = pygame.image.load("img/bg/BGMorning.png")
 
