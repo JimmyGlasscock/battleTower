@@ -4,9 +4,11 @@
 # when user clicks on a pokemon it will grab the base stats and generate from there
 # find way to center back sprites & front sprites
 
+#this uses Pillow and not PIL
 import random
 import pygame
 from pygame.locals import *
+from PIL import Image
 
 class Pokemon:
 
@@ -257,8 +259,8 @@ class Scene:
 		#this is the rendering loop
 		while self.drawing:
 			self.screen.blit(self.bg, (0,0))
-			self.screen.blit(self.playerPokemonSprite, (60,178))
-			self.screen.blit(self.opponentPokemonSprite, (375,85))
+			self.screen.blit(self.playerPokemonSprite, (60,self.playerY))
+			self.screen.blit(self.opponentPokemonSprite, (375,self.oppoY))
 
 			self.screen.blit(HPBar, (356, 225))
 			self.screen.blit(OppoHPBar, (0, 60))
@@ -283,14 +285,23 @@ class Scene:
 			shinyPath = ""
 			if(playerPKMN.shiny):
 				shinyPath = "shiny/"
-			player = pygame.image.load("img/sprites/back/" + shinyPath + str(playerPKMN.num) +".png")
+			filepath = "img/sprites/back/" + shinyPath + str(playerPKMN.num) +".png"	
+			player = pygame.image.load(filepath)
 			self.playerPokemonSprite = pygame.transform.scale(player, (160,160))
+
+			#default
+			self.playerY = 165
+			self.playerY += self.getYCoordinates(filepath)
+
+
 		else:
 			shinyPath = ""
 			if(playerPKMN.shiny):
 				shinyPath = "shiny/"
 			oppo = pygame.image.load("img/sprites/" + shinyPath + str(playerPKMN.num) +".png")
 			self.opponentPokemonSprite = pygame.transform.scale(oppo, (160, 160))
+			#default
+			self.oppoY = 85
 
 	def updatePlayerHPBar(self, HPnum, isPlayerPokemon):
 		print("updated")
@@ -308,6 +319,26 @@ class Scene:
 	#some Moves update the background, this is for that
 	def updateBG(self, move, duration):
 		print("updated")
+
+	def getYCoordinates(self, filepath):
+		image = Image.open(filepath).convert('RGBA')
+		pixeldata = list(image.getdata())
+
+		width, height = image.size
+
+		lastpixel = 0
+
+		#for i, pixel in enumerate(pixeldata):
+		#	if(pixeldata[i] == (255,255,255, 0)):
+		#		print ("wow")
+
+		for y in range(height):
+			r,g,b,a = image.getpixel(((width/2),y))
+
+			if(a != 0):
+				lastpixel = y + 1
+		
+		return (height - lastpixel)
 
 BG = pygame.image.load("img/bg/BGMorning.png")
 
