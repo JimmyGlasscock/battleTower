@@ -328,10 +328,6 @@ class Scene:
 
 		lastpixel = 0
 
-		#for i, pixel in enumerate(pixeldata):
-		#	if(pixeldata[i] == (255,255,255, 0)):
-		#		print ("wow")
-
 		for y in range(height):
 			r,g,b,a = image.getpixel(((width/2),y))
 
