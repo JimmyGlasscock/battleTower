@@ -281,10 +281,12 @@ class Scene:
 	#isPlayerPokemon is a bool that determines whether the
 	#player or opponent is switched out
 	def updatePkmn(self, playerPKMN, isPlayerPokemon):
+		shinyPath = ""
+
+		if(playerPKMN.shiny):
+			shinyPath = "shiny/"
+
 		if(isPlayerPokemon):
-			shinyPath = ""
-			if(playerPKMN.shiny):
-				shinyPath = "shiny/"
 			filepath = "img/sprites/back/" + shinyPath + str(playerPKMN.num) +".png"	
 			player = pygame.image.load(filepath)
 			self.playerPokemonSprite = pygame.transform.scale(player, (160,160))
@@ -295,13 +297,13 @@ class Scene:
 
 
 		else:
-			shinyPath = ""
-			if(playerPKMN.shiny):
-				shinyPath = "shiny/"
-			oppo = pygame.image.load("img/sprites/" + shinyPath + str(playerPKMN.num) +".png")
+			filepath = "img/sprites/" + shinyPath + str(playerPKMN.num) +".png"
+			oppo = pygame.image.load(filepath)
 			self.opponentPokemonSprite = pygame.transform.scale(oppo, (160, 160))
+
 			#default
-			self.oppoY = 85
+			self.oppoY = 45
+			self.oppoY += self.getYCoordinates(filepath)
 
 	def updatePlayerHPBar(self, HPnum, isPlayerPokemon):
 		print("updated")
@@ -326,24 +328,26 @@ class Scene:
 
 		width, height = image.size
 
-		lastpixel = 0
+		lastpixel = height
 
+		#check if pokemon floats, if yes return 0
 		for y in range(height):
-			r,g,b,a = image.getpixel(((width/2),y))
+			for x in range(width):
+				r, g, b, a = image.getpixel((x,y))
 
-			if(a != 0):
-				lastpixel = y + 1
-		
+				if(a != 0):
+					lastpixel = y + 1					
+
 		#have to scale by 2
-		return (height - lastpixel)*2
+		return (height - lastpixel)*2	
 
 BG = pygame.image.load("img/bg/BGMorning.png")
 
 scene = Scene(BG)
 
-Bulba = Pokemon(1, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
+Bulba = Pokemon(483, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
 Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 0, 0, 0)
 
 scene.updatePkmn(Bulba, True)
-scene.updatePkmn(Charm, False)
+scene.updatePkmn(Bulba, False)
 scene.drawSceneBattle()
