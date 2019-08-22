@@ -268,7 +268,9 @@ class Scene:
 
 			self.screen.blit(textbox, (0,325))
 
-			self.drawPlayerHP(self.screen)
+			#draws player & opponent hp
+			self.drawHP(self.screen, False)
+			self.drawHP(self.screen, True)
 
 			#this should be last
 			pygame.display.flip()
@@ -360,20 +362,36 @@ class Scene:
 		#have to scale by 2
 		return (height - lastpixel)*2
 
-	def drawPlayerHP(self, screen):
+	#player is a bool
+	def drawHP(self, screen, player):
 		green = (0, 255, 0, 255)
 		yellow = (255, 250, 0, 255)
 		red = (255, 0, 0, 255)
 
-		#if hp < 50% = yellow, if hp < 20% = red
 		currentColor = green
 
 		MaxHP = 97
 		HP = MaxHP
 
-		HP *= int(self.playerPKMN.HP/self.playerPKMN.MaxHP)
-		
-		pygame.draw.rect((screen), green,(72,106,HP,6))
+		x = 72
+		y = 106
+		size = 6
+
+		if(player):
+			HP *= int(self.playerPKMN.HP/self.playerPKMN.MaxHP)
+
+			#change x & y here
+			x = 0
+			y = 0
+		else:
+			HP *= int(self.oppoPKMN.HP/self.oppoPKMN.MaxHP)
+
+		if(HP < 20):
+			currentColor = red
+		elif(HP < 49):
+			currentColor = yellow
+
+		pygame.draw.rect((screen), currentColor,(x,y,HP,size))
 
 BG = None
 
@@ -393,3 +411,5 @@ Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 0, 0, 0)
 scene.updatePkmn(Bulba, True)
 scene.updatePkmn(Charm, False)
 scene.drawSceneBattle()
+
+Bulba.HP = 60
