@@ -380,9 +380,8 @@ class Scene:
 		if(player):
 			HP *= int(self.playerPKMN.HP/self.playerPKMN.MaxHP)
 
-			#change x & y here
-			x = 0
-			y = 0
+			x = 498
+			y = 273
 		else:
 			HP *= int(self.oppoPKMN.HP/self.oppoPKMN.MaxHP)
 
