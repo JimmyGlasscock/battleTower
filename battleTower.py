@@ -244,6 +244,8 @@ class Scene:
 		#should I call this here?
 		pygame.init()
 
+		self.font = pygame.font.Font("font/font.ttf", 16)
+
 		#screen is what is drawn to
 		self.screen = pygame.display.set_mode((600,430))
 		#pygame.display contains various settings
@@ -271,6 +273,12 @@ class Scene:
 			#draws player & opponent hp
 			self.drawHP(self.screen, False)
 			self.drawHP(self.screen, True)
+
+			self.drawName(self.screen, False)
+			self.drawName(self.screen, True)
+
+			self.drawLevel(self.screen, False)
+			self.drawLevel(self.screen, True)
 
 			#this should be last
 			pygame.display.flip()
@@ -392,6 +400,38 @@ class Scene:
 
 		pygame.draw.rect((screen), currentColor,(x,y,HP,size))
 
+	#player is a bool determines if this is playerName or OppoName
+	def drawName(self, screen, player):
+		name = ""
+		x = 0
+		y = 0
+		if(player):
+			name = self.playerPKMN.name
+			x = 420
+			y = 240
+		else:
+			name = self.oppoPKMN.name
+			x = 8
+			y = 73
+
+		text = self.font.render(name, False, (0,0,0))
+		screen.blit(text, (x,y))
+
+	def drawLevel(self, screen, player):
+		lv = 0
+		x = 0
+		y = 0
+		if(player):
+			lv = self.playerPKMN.level
+			x = 570
+			y = 240
+		else:
+			lv = self.oppoPKMN.level
+			x = 143
+			y = 73
+		text = self.font.render(str(lv), False, (0,0,0))
+		screen.blit(text, (x,y))
+
 BG = None
 
 #sets time of day bg
@@ -404,11 +444,10 @@ else:
 
 scene = Scene(BG)
 
-Bulba = Pokemon(1, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
-Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 0, 0, 0)
+Bulba = Pokemon(1, "Bulbasaur", 50, 45, 45, 65, 65, 60, 60, 0, 0)
+Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 60, 0, 0)
 
 scene.updatePkmn(Bulba, True)
-scene.updatePkmn(Charm, False)
-scene.drawSceneBattle()
+scene.updatePkmn(Bulba, False)
 
-Bulba.HP = 60
+scene.drawSceneBattle()
