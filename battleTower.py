@@ -2,7 +2,8 @@
 
 # TO DO:
 # when user clicks on a pokemon it will grab the base stats and generate from there
-# find way to center back sprites & front sprites
+# do a battle intro animation, call it on scene before main loop
+# define checkWhiteout method
 
 #this uses Pillow and not PIL
 import random
@@ -118,9 +119,12 @@ class Battle:
 	]
 
 	# both teams are stored as arrays
-	def __init__(playerTeam, oppoTeam):
+	def __init__(self, playerTeam, oppoTeam):
 		self.battleIntro()
 		self.battleLoop(playerTeam, oppoTeam)
+
+	def battleIntro(self):
+		print("finish battle intro")
 
 	def checkFainted(self, fighter):
 		if(fighter.HP < 0 or fighter.HP == 0):
@@ -236,9 +240,10 @@ class Battle:
 #everything on the screen
 class Scene:
 	#init sets the background as well as the drawing bool to true
-	def __init__(self, bg):
+	def __init__(self, bg, battleObj):
 		self.drawing = True
 		self.bg = bg
+		self.battleObj = battleObj
 
 	def drawSceneBattle(self):
 		#should I call this here?
@@ -257,7 +262,8 @@ class Scene:
 		HPBar = pygame.image.load("img/ui/HPBar.png")
 		OppoHPBar = pygame.image.load("img/ui/OpponentHPBar.png")
 
-		color = (0,65,122)
+		self.lastPKMN = self.battleObj.currentPKMN
+		self.lastOpponent = self.battleObj.currentOpponent
 
 		#this is the rendering loop
 		while self.drawing:
@@ -280,7 +286,15 @@ class Scene:
 			self.drawLevel(self.screen, False)
 			self.drawLevel(self.screen, True)
 
-			#this should be last
+			#updates PKMN if it changed
+			if(self.lastPKMN != self.battleObj.currentPKMN):
+				self.updatePkmn(self.battleObj.currentPKMN, True)
+				self.lastPKMN = self.battleObj.currentPKMN
+			if(self.lastOpponent != self.battleObj.currentOpponent):
+				self.updatePkmn(self.battleObj.currentOpponent, False)
+				self.lastOpponent = self.battleObj.currentOpponent
+
+			#this should be last thing done with display
 			pygame.display.flip()
 
 			#do this last
@@ -442,11 +456,16 @@ elif((dt.datetime.now().hour) < 19):
 else:
 	BG = pygame.image.load("img/bg/BGDusk.png")
 
-scene = Scene(BG)
-
 Bulba = Pokemon(1, "Bulbasaur", 50, 45, 45, 65, 65, 60, 60, 0, 0)
 Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 60, 0, 0)
 
+playerTeam = [Bulba, Charm]
+
+battle = Battle(playerTeam, playerTeam)
+
+scene = Scene(BG, battle)
+
+#call this from inside scene using battleObj.currentPKMN
 scene.updatePkmn(Bulba, True)
 scene.updatePkmn(Bulba, False)
 
