@@ -9,6 +9,7 @@ import random
 import pygame
 from pygame.locals import *
 from PIL import Image
+import datetime as dt
 
 class Pokemon:
 
@@ -267,6 +268,8 @@ class Scene:
 
 			self.screen.blit(textbox, (0,325))
 
+			self.drawPlayerHP(self.screen)
+
 			#this should be last
 			pygame.display.flip()
 
@@ -287,6 +290,8 @@ class Scene:
 			shinyPath = "shiny/"
 
 		if(isPlayerPokemon):
+			self.playerPKMN = playerPKMN
+
 			filepath = "img/sprites/back/" + shinyPath + str(playerPKMN.num) +".png"	
 			player = pygame.image.load(filepath)
 			self.playerPokemonSprite = pygame.transform.scale(player, (160,160))
@@ -297,6 +302,8 @@ class Scene:
 
 
 		else:
+			self.oppoPKMN = playerPKMN
+
 			filepath = "img/sprites/" + shinyPath + str(playerPKMN.num) +".png"
 			oppo = pygame.image.load(filepath)
 			self.opponentPokemonSprite = pygame.transform.scale(oppo, (160, 160))
@@ -351,15 +358,37 @@ class Scene:
 					lastpixel = y + 1					
 
 		#have to scale by 2
-		return (height - lastpixel)*2	
+		return (height - lastpixel)*2
 
-BG = pygame.image.load("img/bg/BGMorning.png")
+	def drawPlayerHP(self, screen):
+		green = (0, 255, 0, 255)
+		yellow = (255, 250, 0, 255)
+		red = (255, 0, 0, 255)
+
+		currentColor = green
+
+		MaxHP = 97
+		HP = MaxHP
+
+		HP *= int(self.playerPKMN.HP/self.playerPKMN.MaxHP)
+		
+		pygame.draw.rect((screen), green,(72,106,HP,6))
+
+BG = None
+
+#sets time of day bg
+if((dt.datetime.now().hour) > 6 and (dt.datetime.now().hour) < 17):
+	BG = pygame.image.load("img/bg/BGMorning.png")
+elif((dt.datetime.now().hour) < 19):
+	BG = pygame.image.load("img/bg/BGDusk.png")
+else:
+	BG = pygame.image.load("img/bg/BGDusk.png")
 
 scene = Scene(BG)
 
-Bulba = Pokemon(491, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
+Bulba = Pokemon(1, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
 Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 0, 0, 0)
 
 scene.updatePkmn(Bulba, True)
-scene.updatePkmn(Bulba, False)
+scene.updatePkmn(Charm, False)
 scene.drawSceneBattle()
