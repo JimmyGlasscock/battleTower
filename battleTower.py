@@ -365,6 +365,7 @@ class Scene:
 		yellow = (255, 250, 0, 255)
 		red = (255, 0, 0, 255)
 
+		#if hp < 50% = yellow, if hp < 20% = red
 		currentColor = green
 
 		MaxHP = 97
