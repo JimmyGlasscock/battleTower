@@ -330,7 +330,19 @@ class Scene:
 
 		lastpixel = height
 
-		#check if pokemon floats, if yes return 0
+		frontSprite = True
+
+		if("back" in filepath):
+			frontSprite = False
+
+		if(frontSprite):
+			#check if pokemon floats, if yes return 0
+			with open("floatingPKMN.txt") as f:
+				for line in f:
+					line = line.rstrip()
+					if(str(line)+".png" in filepath):
+						return 0
+
 		for y in range(height):
 			for x in range(width):
 				r, g, b, a = image.getpixel((x,y))
@@ -345,7 +357,7 @@ BG = pygame.image.load("img/bg/BGMorning.png")
 
 scene = Scene(BG)
 
-Bulba = Pokemon(483, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
+Bulba = Pokemon(491, "Bulbasaur", 50, 45, 45, 65, 65, 60, 0, 0, 0)
 Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 0, 0, 0)
 
 scene.updatePkmn(Bulba, True)
