@@ -475,11 +475,12 @@ if((dt.datetime.now().hour) > 6 and (dt.datetime.now().hour) < 17):
 elif((dt.datetime.now().hour) < 19):
 	BG = pygame.image.load("img/bg/BGDusk.png")
 else:
-	BG = pygame.image.load("img/bg/BGDusk.png")
+	BG = pygame.image.load("img/bg/BGNight.png")
 
 Bulba = Pokemon(1, "Bulbasaur", 50, 45, 45, 65, 65, 60, 60, 0, 0)
 Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 60, 0, 0)
 
 playerTeam = [Bulba, Charm]
+oppoTeam = [Charm, Bulba]
 
-battle = Battle(playerTeam, playerTeam)
+battle = Battle(playerTeam, oppoTeam)
