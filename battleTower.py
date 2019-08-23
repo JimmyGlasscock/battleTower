@@ -131,6 +131,15 @@ class Battle:
 			fighter.HP = 0
 			fighter.status = "FNT"
 
+	def checkWhiteout(self, team):
+		result = False
+
+		for pokemon in team:
+			if(pokemon.status == "FNT"):
+				result = False
+
+		return result
+
 	def playerTurn(self, player, opponent):
 		#prompt the user to fight, switch, or use item
 		
@@ -201,6 +210,9 @@ class Battle:
 			if(player.status != "FNT"):
 				self.playerTurn(player, opponent)
 				pokemonFainted = True
+
+				#switchPokemonMethod
+				self.scene.updatePkmn(None, True)
 		else:
 			self.playerTurn(player, opponent)
 			if(opponent.status != "FNT"):
@@ -216,18 +228,27 @@ class Battle:
 		# this is true if the opponent's entire team is fainted
 		opponentWhiteout = False
 
-		currentPlayer = playerTeam[0]
-		currentOpponent = oppoTeam[0]
+		self.currentPlayer = playerTeam[0]
+		self.currentOpponent = oppoTeam[0]
+
+		self.scene = Scene(BG, self)
+
+		#call this from inside scene using battleObj.currentPKMN
+		self.scene.updatePkmn(self.currentPlayer, True)
+		self.scene.updatePkmn(self.currentOpponent, False)
 
 		while(opponentWhiteout != True and playerWhiteout != True):
+
+			self.scene.drawSceneBattle()
+
 			#weather conditions
 
 			#compare speed, call player/opponent attack based on which
 			pkmnFainted = self.compareSpeed(currentPlayer, currentOpponent)
 
 			if(pkmnFainted):
-				playerWhiteout = checkWhiteout(playerTeam)
-				opponentWhiteout = checkWhiteout(oppoTeam)
+				playerWhiteout = self.checkWhiteout(playerTeam)
+				opponentWhiteout = self.checkWhiteout(oppoTeam)
 
 			#apply status if status
 
@@ -262,7 +283,7 @@ class Scene:
 		HPBar = pygame.image.load("img/ui/HPBar.png")
 		OppoHPBar = pygame.image.load("img/ui/OpponentHPBar.png")
 
-		self.lastPKMN = self.battleObj.currentPKMN
+		self.lastPKMN = self.battleObj.currentPlayer
 		self.lastOpponent = self.battleObj.currentOpponent
 
 		#this is the rendering loop
@@ -287,9 +308,9 @@ class Scene:
 			self.drawLevel(self.screen, True)
 
 			#updates PKMN if it changed
-			if(self.lastPKMN != self.battleObj.currentPKMN):
-				self.updatePkmn(self.battleObj.currentPKMN, True)
-				self.lastPKMN = self.battleObj.currentPKMN
+			if(self.lastPKMN != self.battleObj.currentPlayer):
+				self.updatePkmn(self.battleObj.currentPlayer, True)
+				self.lastPKMN = self.battleObj.currentPlayer
 			if(self.lastOpponent != self.battleObj.currentOpponent):
 				self.updatePkmn(self.battleObj.currentOpponent, False)
 				self.lastOpponent = self.battleObj.currentOpponent
@@ -462,11 +483,3 @@ Charm = Pokemon(4, "Charmander", 50, 50, 50, 45, 45, 60, 60, 0, 0)
 playerTeam = [Bulba, Charm]
 
 battle = Battle(playerTeam, playerTeam)
-
-scene = Scene(BG, battle)
-
-#call this from inside scene using battleObj.currentPKMN
-scene.updatePkmn(Bulba, True)
-scene.updatePkmn(Bulba, False)
-
-scene.drawSceneBattle()
